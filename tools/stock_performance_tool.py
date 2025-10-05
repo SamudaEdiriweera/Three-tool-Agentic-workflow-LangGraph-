@@ -15,7 +15,7 @@ def stock_data_tool(
     num_days: Annotated[int, "The number of days of stock data required to respond to the user query."]
 ) -> str:
     """ 
-        Use this ti look-up stock performance data for companies to retrieve a table from a csv. you may need to convert company names into ticker sysmbols ton call this function,
+        Use this to look-up stock performance data for companies to retrieve a table from a csv. you may need to convert company names into ticker sysmbols ton call this function,
         e.g, Apple Inc. -> AAPL, and you may need to convert weeks, months, and years, into days.
     """
     
@@ -46,3 +46,6 @@ def stock_data_tool(
 
 retrieved_data = stock_data_tool.invoke({"company_ticker": "META", "num_days": 4})
 print(retrieved_data)
+
+from IPython.display import display, Markdown
+display(Markdown(retrieved_data))
