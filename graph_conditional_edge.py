@@ -1,5 +1,7 @@
+""" Making tools optional with conditional edges in LangGraph """
+
 from langgraph.graph import StateGraph, START, END
-from langgraph.prebuilt import ToolNode
+from langgraph.prebuilt import ToolNode, tools_condition
 import getpass
 from langchain_openai import ChatOpenAI
 from langgraph.graph.message import add_messages
@@ -97,6 +99,11 @@ def llm_node(state: State):
     msgs = state.get("messages", [])
     return {"messages": [llm_with_tools.invoke(msgs)]}
 
+''' define the graph containing conditional edges 
+from the LLM node to the tool node
+based on the LLM's response
+'''
+
 # Nodes
 graph_builder.add_node("llm", llm_node)
 tool_node = ToolNode(tools=tools)
@@ -104,8 +111,8 @@ graph_builder.add_node("tool", tool_node)
 
 # Linear edges
 graph_builder.add_edge(START, "llm")
-graph_builder.add_edge("llm", "tool")
-graph_builder.add_edge("tool", END)
+graph_builder.add_conditional_edges("llm", tools_condition, ["tool", END])
+graph_builder.add_edge("tool", "llm")
 
 graph = graph_builder.compile()
 
