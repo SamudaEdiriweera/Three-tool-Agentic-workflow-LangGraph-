@@ -94,5 +94,19 @@ Retrieve and format historical stock performance data.
 **Dependencies:**  
 ```bash
 pip install pandas tabulate
+```
 
+## 🧩 Making Tool Optional
 
+###  1. Introducing conditional edges
+
+One of the problems with our current agentic system is that the chatbot node was always directed into the tools node, regardless of whether the user input requires the tools or not. This means that the LLM isn't really making a decision, as there is no other choice but to proceed.
+
+LangGraph provides conditional edges, which are like splits in the workflow where the agent can choose which way to go.
+
+## 📸 Preview
+
+<img width="1134" height="392" alt="condtional_edge" src="https://github.com/user-attachments/assets/22278818-58f2-4307-95b4-caf01ab6da96" />
+
+**Now:**
+- The chatbot now responds to non-tool-related inputs, like telling it our name, rather than breaking.
